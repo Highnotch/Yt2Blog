@@ -1,0 +1,103 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>YT2Blog - YouTube to SEO Blog Generator</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>YT2Blog</h1>
+  <form method="post" action="/generate">
+    <input type="text" name="youtube_url" placeholder="Paste YouTube URL" required>
+    <button type="submit">Generate Blog</button>
+  </form>
+
+  {% if blog %}
+    <hr>
+    <h2>Generated Blog:</h2>
+    <div style="white-space: pre-wrap;">{{ blog }}</div>
+  {% endif %}
+
+  {% if error %}
+    <hr>
+    <h2 style="color: red;">Error:</h2>
+    <p>{{ error }}</p>
+  {% endif %}
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YT2Blog – Turn YouTube Videos into Blogs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md p-6 mb-8">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-blue-600">YT2Blog</h1>
+            <p class="text-sm text-gray-600">Convert YouTube videos into SEO blogs</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4">
+        <!-- Upload Form -->
+        <form method="POST" action="/generate" class="bg-white p-6 rounded-xl shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Submit YouTube Video</h2>
+            <div class="flex flex-col md:flex-row gap-4">
+                <input name="youtube_url" type="url" required placeholder="Enter YouTube video URL"
+                    class="flex-grow p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <button type="submit"
+                    class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                    Generate Blog
+                </button>
+            </div>
+        </form>
+
+        <!-- Error Message -->
+        {% if error %}
+        <div class="bg-red-100 text-red-700 p-4 mb-6 rounded-md border border-red-300">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Blog Output -->
+        {% if blog %}
+        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Generated Blog</h2>
+            <article class="prose max-w-none">
+                {{ blog | safe }}
+            </article>
+        </div>
+        {% endif %}
+
+        <!-- Recent Videos -->
+        {% if tasks %}
+        <div class="bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Recent Videos</h2>
+            <ul class="space-y-3">
+                {% for id, task in tasks.items() %}
+                <li class="flex items-center justify-between p-3 border rounded-lg">
+                    <div class="flex flex-col">
+                        <a href="{{ task.url }}" target="_blank" class="text-blue-500 underline truncate max-w-xs">
+                            {{ task.url }}
+                        </a>
+                        <span class="text-sm text-gray-500">Status: {{ task.status }}</span>
+                    </div>
+                    {% if task.status == "Complete" %}
+                        <a href="#blog" class="text-sm text-green-600 underline">View Blog</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </main>
+
+</body>
+</html>
